@@ -8,6 +8,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
+import java.util.Random;
+
 public class InventoryRucksack implements IInventory {
 
     private ItemStack rucksack;
@@ -47,8 +49,33 @@ public class InventoryRucksack implements IInventory {
         }
 
         nbtTagCompound.setTag("Items", tagList);
-
         this.rucksack.setTagCompound(nbtTagCompound);
+
+        // update the player inventory (needed to actually save shit)
+        for (int i = -1; i < this.player.inventory.getSizeInventory(); ++i) {
+            ItemStack currentStack;
+
+            if (i == -1) {
+                currentStack = player.inventory.getItemStack();
+            } else {
+                currentStack = player.inventory.getStackInSlot(i);
+            }
+
+            if (currentStack != null) {
+                NBTTagCompound stackNBT = currentStack.getTagCompound();
+                if (stackNBT != null && this.rucksack.getTagCompound().getInteger("cid") == stackNBT.getInteger("cid")) {
+                    this.rucksack.stackSize = 1;
+
+                    if (i == -1) {
+                        player.inventory.setItemStack(this.rucksack);
+                    } else {
+                        player.inventory.setInventorySlotContents(i, this.rucksack);
+                    }
+
+                    break;
+                }
+            }
+        }
     }
 
     public void readFromNBT() {
@@ -58,15 +85,19 @@ public class InventoryRucksack implements IInventory {
             this.rucksack.setTagCompound(nbtTagCompound = new NBTTagCompound());
         }
 
-        if (nbtTagCompound.hasKey("Items")) {
-            NBTTagList tagList = nbtTagCompound.getTagList("Items", 10);
-            this.inventory = new ItemStack[this.getSizeInventory()];
-            for (int i = 0; i < tagList.tagCount(); i++) {
-                NBTTagCompound itemStackTag = tagList.getCompoundTagAt(i);
-                int itemSlot = itemStackTag.getByte("Slot");
-                if (itemSlot >= 0 && itemSlot < inventory.length) {
-                    this.inventory[itemSlot] = ItemStack.loadItemStackFromNBT(itemStackTag);
-                }
+        if (!nbtTagCompound.hasKey("Items")) {
+            nbtTagCompound.setTag("Items", new NBTTagList());
+        }
+
+        nbtTagCompound.setInteger("cid", (new Random()).nextInt());
+
+        NBTTagList tagList = nbtTagCompound.getTagList("Items", 10);
+        this.inventory = new ItemStack[this.getSizeInventory()];
+        for (int i = 0; i < tagList.tagCount(); i++) {
+            NBTTagCompound itemStackTag = tagList.getCompoundTagAt(i);
+            int itemSlot = itemStackTag.getByte("Slot");
+            if (itemSlot >= 0 && itemSlot < inventory.length) {
+                this.inventory[itemSlot] = ItemStack.loadItemStackFromNBT(itemStackTag);
             }
         }
     }
