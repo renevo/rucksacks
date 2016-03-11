@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "rucksacks",
+    "name": "Rucksacks",
+    "description": "Adds colored ruck sacks and an ender ruck sack.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://github.com/renevo/rucksacks",
+    "updateUrl": "https://raw.githubusercontent.com/RenEvo/rucksacks/master/update.json",
+    "authorList": [
+      "RenEvo"
+    ],
+    "credits": "Acatera for making the first version!",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
