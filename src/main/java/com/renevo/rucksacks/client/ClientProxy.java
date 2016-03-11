@@ -11,5 +11,6 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void registerModels() {
         ModelLoader.setCustomModelResourceLocation(Items.rucksack_ender, 0, new ModelResourceLocation(Util.getResource("rucksack_ender"), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Items.rucksack, 0, new ModelResourceLocation(Util.getResource("rucksack"), "inventory"));
     }
 }
