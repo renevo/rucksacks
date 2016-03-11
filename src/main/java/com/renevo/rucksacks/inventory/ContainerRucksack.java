@@ -1,5 +1,6 @@
 package com.renevo.rucksacks.inventory;
 
+import invtweaks.api.container.ChestContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -7,6 +8,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+@ChestContainer(rowSize=9, isLargeChest=false)
 public class ContainerRucksack extends Container {
     private InventoryRucksack rucksackInventory;
     private int numRows;
