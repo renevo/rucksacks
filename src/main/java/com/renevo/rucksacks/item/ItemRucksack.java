@@ -1,5 +1,7 @@
 package com.renevo.rucksacks.item;
 
+import com.renevo.rucksacks.GuiHandler;
+import com.renevo.rucksacks.Rucksacks;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -18,9 +20,11 @@ public class ItemRucksack extends ItemMeta {
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
         if (!world.isRemote) {
-            // TODO: open inventory
+            player.openGui(Rucksacks.instance, GuiHandler.GUI_RUCKSACK, world, 0, 0, 0);
+            return player.getCurrentEquippedItem();
         }
-        return itemStack;
+
+        return player.getCurrentEquippedItem();
     }
 
     @Override
@@ -32,6 +36,18 @@ public class ItemRucksack extends ItemMeta {
         }
 
         return i;
+    }
+
+    @Override
+    public String getItemStackDisplayName(ItemStack itemStack) {
+        if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("display", 10)) {
+            NBTTagCompound display = itemStack.getTagCompound().getCompoundTag("display");
+            if (display.hasKey("Name")) {
+                return display.getString("Name");
+            }
+        }
+
+        return super.getItemStackDisplayName(itemStack);
     }
 
     public boolean hasColor(ItemStack itemStack) {
