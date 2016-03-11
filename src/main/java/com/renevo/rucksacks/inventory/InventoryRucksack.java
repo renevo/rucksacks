@@ -28,11 +28,10 @@ public class InventoryRucksack implements IInventory {
         return this.rucksack;
     }
 
-    public EntityPlayer getPlayer() {
-        return this.player;
-    }
-
     public void writeToNBT() {
+        if (this.player.worldObj.isRemote) {
+            return;
+        }
         NBTTagCompound nbtTagCompound = this.rucksack.getTagCompound();
         if (nbtTagCompound == null) {
             this.rucksack.setTagCompound(nbtTagCompound = new NBTTagCompound());
@@ -79,6 +78,10 @@ public class InventoryRucksack implements IInventory {
     }
 
     public void readFromNBT() {
+        if (this.player.worldObj.isRemote) {
+            return;
+        }
+
         NBTTagCompound nbtTagCompound = this.rucksack.getTagCompound();
 
         if (nbtTagCompound == null) {

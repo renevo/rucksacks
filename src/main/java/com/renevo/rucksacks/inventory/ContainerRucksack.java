@@ -5,14 +5,16 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class ContainerRucksack extends Container {
-    private IInventory rucksackInventory;
+    private InventoryRucksack rucksackInventory;
     private int numRows;
 
-    public ContainerRucksack(EntityPlayer player, IInventory rucksackInventory) {
+    public ContainerRucksack(EntityPlayer player, InventoryRucksack rucksackInventory) {
         this.rucksackInventory = rucksackInventory;
         this.numRows = rucksackInventory.getSizeInventory() / 9;
+
         rucksackInventory.openInventory(player);
         IInventory invPlayer = player.inventory;
 
@@ -22,20 +24,37 @@ public class ContainerRucksack extends Container {
         int lvt_6_2_;
         for(lvt_5_3_ = 0; lvt_5_3_ < this.numRows; ++lvt_5_3_) {
             for(lvt_6_2_ = 0; lvt_6_2_ < 9; ++lvt_6_2_) {
-                this.addSlotToContainer(new Slot(rucksackInventory, lvt_6_2_ + lvt_5_3_ * 9, 8 + lvt_6_2_ * 18, 18 + lvt_5_3_ * 18));
+                this.addSlotToContainer(new RucksackSlot(rucksackInventory, lvt_6_2_ + lvt_5_3_ * 9, 8 + lvt_6_2_ * 18, 18 + lvt_5_3_ * 18));
             }
         }
 
         for(lvt_5_3_ = 0; lvt_5_3_ < 3; ++lvt_5_3_) {
             for(lvt_6_2_ = 0; lvt_6_2_ < 9; ++lvt_6_2_) {
+                ItemStack currentStack = invPlayer.getStackInSlot(lvt_6_2_ + lvt_5_3_ * 9 + 9);
+                if (currentStack != null) {
+                    NBTTagCompound stackNBT = currentStack.getTagCompound();
+                    if (stackNBT != null && this.rucksackInventory.getRucksack().getTagCompound().getInteger("cid") == stackNBT.getInteger("cid")) {
+                        this.addSlotToContainer(new ReadOnlySlot(invPlayer, lvt_6_2_ + lvt_5_3_ * 9 + 9, 8 + lvt_6_2_ * 18, 103 + lvt_5_3_ * 18 + lvt_4_1_));
+                        continue;
+                    }
+                }
+
                 this.addSlotToContainer(new Slot(invPlayer, lvt_6_2_ + lvt_5_3_ * 9 + 9, 8 + lvt_6_2_ * 18, 103 + lvt_5_3_ * 18 + lvt_4_1_));
             }
         }
 
         for(lvt_5_3_ = 0; lvt_5_3_ < 9; ++lvt_5_3_) {
+            ItemStack currentStack = invPlayer.getStackInSlot(lvt_5_3_);
+            if (currentStack != null) {
+                NBTTagCompound stackNBT = currentStack.getTagCompound();
+                if (stackNBT != null && this.rucksackInventory.getRucksack().getTagCompound().getInteger("cid") == stackNBT.getInteger("cid")) {
+                    this.addSlotToContainer(new ReadOnlySlot(invPlayer, lvt_5_3_, 8 + lvt_5_3_ * 18, 161 + lvt_4_1_));
+                    continue;
+                }
+            }
+
             this.addSlotToContainer(new Slot(invPlayer, lvt_5_3_, 8 + lvt_5_3_ * 18, 161 + lvt_4_1_));
         }
-
     }
 
     public boolean canInteractWith(EntityPlayer player) {
@@ -69,9 +88,5 @@ public class ContainerRucksack extends Container {
     public void onContainerClosed(EntityPlayer entityPlayer) {
         super.onContainerClosed(entityPlayer);
         this.rucksackInventory.closeInventory(entityPlayer);
-    }
-
-    public IInventory getRucksackInventory() {
-        return this.rucksackInventory;
     }
 }

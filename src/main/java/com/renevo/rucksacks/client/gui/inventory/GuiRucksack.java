@@ -1,6 +1,7 @@
 package com.renevo.rucksacks.client.gui.inventory;
 
 import com.renevo.rucksacks.inventory.ContainerRucksack;
+import com.renevo.rucksacks.inventory.InventoryRucksack;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,10 +14,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiRucksack extends GuiContainer {
     private static final ResourceLocation CHEST_GUI_TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
     private IInventory upperChestInventory;
-    private IInventory lowerChestInventory;
+    private InventoryRucksack lowerChestInventory;
     private int inventoryRows;
 
-    public GuiRucksack(EntityPlayer player, IInventory rucksackInventory) {
+    public GuiRucksack(EntityPlayer player, InventoryRucksack rucksackInventory) {
         super(new ContainerRucksack(player, rucksackInventory));
         this.upperChestInventory = player.inventory;
         this.lowerChestInventory = rucksackInventory;
