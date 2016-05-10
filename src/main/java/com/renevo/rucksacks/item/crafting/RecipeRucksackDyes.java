@@ -75,7 +75,7 @@ public class RecipeRucksackDyes implements IRecipe {
                         return null;
                     }
 
-                    float[] var14 = EntitySheep.func_175513_a(EnumDyeColor.byDyeDamage(j1.getMetadata()));
+                    float[] var14 = EntitySheep.getDyeRgb(EnumDyeColor.byDyeDamage(j1.getMetadata()));
                     int var15 = (int)(var14[0] * 255.0F);
                     int var16 = (int)(var14[1] * 255.0F);
                     var17 = (int)(var14[2] * 255.0F);

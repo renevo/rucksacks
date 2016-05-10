@@ -4,6 +4,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryEnderChest;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 public class ItemEnderRucksack extends ItemMeta {
@@ -14,11 +17,12 @@ public class ItemEnderRucksack extends ItemMeta {
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if (!world.isRemote) {
             InventoryEnderChest enderChest = player.getInventoryEnderChest();
             player.displayGUIChest(enderChest);
+            return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
         }
-        return itemStack;
+        return ActionResult.newResult(EnumActionResult.PASS, itemStack);
     }
 }

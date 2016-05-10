@@ -1,7 +1,7 @@
 package com.renevo.rucksacks;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.Locale;
 
@@ -29,6 +29,6 @@ public final class Util {
     }
 
     public static String translateRecursive(String key, Object... params) {
-        return StatCollector.translateToLocal(StatCollector.translateToLocalFormatted(key, params));
+        return I18n.translateToLocal(I18n.translateToLocalFormatted(key, params));
     }
 }

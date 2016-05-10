@@ -21,9 +21,14 @@ public class CommonProxy {
 
     public void postInit() {
 
+        registerColors();
     }
 
     public void registerModels() {
+
+    }
+
+    public void registerColors() {
 
     }
 }
