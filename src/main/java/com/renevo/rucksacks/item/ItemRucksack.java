@@ -6,9 +6,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemRucksack extends ItemMeta {
 
@@ -18,24 +19,13 @@ public class ItemRucksack extends ItemMeta {
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if (!world.isRemote) {
             player.openGui(Rucksacks.instance, GuiHandler.GUI_RUCKSACK, world, 0, 0, 0);
-            return player.getCurrentEquippedItem();
+            return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
         }
 
-        return player.getCurrentEquippedItem();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemStack, int damage) {
-        int i = this.getColor(itemStack);
-        if (i < 0) {
-            i = 16777215;
-        }
-
-        return i;
+        return ActionResult.newResult(EnumActionResult.PASS, itemStack);
     }
 
     @Override
