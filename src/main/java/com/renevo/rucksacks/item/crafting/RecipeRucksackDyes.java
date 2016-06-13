@@ -14,17 +14,19 @@ import net.minecraftforge.common.ForgeHooks;
 import java.util.ArrayList;
 
 public class RecipeRucksackDyes implements IRecipe {
-    public boolean matches(InventoryCrafting p_matches_1_, World p_matches_2_) {
+
+    @Override
+    public boolean matches(InventoryCrafting inventory, World world) {
         ItemStack itemRucksack = null;
         ArrayList list = Lists.newArrayList();
 
-        for(int i = 0; i < p_matches_1_.getSizeInventory(); ++i) {
-            ItemStack current = p_matches_1_.getStackInSlot(i);
+        for(int i = 0; i < inventory.getSizeInventory(); ++i) {
+            ItemStack current = inventory.getStackInSlot(i);
             if(current != null) {
                 if(current.getItem() instanceof ItemRucksack) {
                     itemRucksack = current;
                 } else {
-                    if(current.getItem() != Items.dye) {
+                    if(current.getItem() != Items.DYE) {
                         return false;
                     }
 
@@ -36,7 +38,8 @@ public class RecipeRucksackDyes implements IRecipe {
         return itemRucksack != null && !list.isEmpty();
     }
 
-    public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting) {
+    @Override
+    public ItemStack getCraftingResult(InventoryCrafting inventory) {
         ItemStack output = null;
         int[] aint = new int[3];
         int i = 0;
@@ -48,8 +51,8 @@ public class RecipeRucksackDyes implements IRecipe {
         float f3;
         float f4;
         int var17;
-        for(i1 = 0; i1 < inventoryCrafting.getSizeInventory(); ++i1) {
-            ItemStack j1 = inventoryCrafting.getStackInSlot(i1);
+        for(i1 = 0; i1 < inventory.getSizeInventory(); ++i1) {
+            ItemStack j1 = inventory.getStackInSlot(i1);
             if(j1 != null) {
                 if(j1.getItem() instanceof ItemRucksack) {
                     itemRucksack = (ItemRucksack)j1.getItem();
@@ -71,7 +74,7 @@ public class RecipeRucksackDyes implements IRecipe {
                         ++j;
                     }
                 } else {
-                    if(j1.getItem() != Items.dye) {
+                    if(j1.getItem() != Items.DYE) {
                         return null;
                     }
 
@@ -106,19 +109,22 @@ public class RecipeRucksackDyes implements IRecipe {
         }
     }
 
+    @Override
     public int getRecipeSize() {
         return 10;
     }
 
+    @Override
     public ItemStack getRecipeOutput() {
         return null;
     }
 
-    public ItemStack[] getRemainingItems(InventoryCrafting inventoryCrafting) {
-        ItemStack[] itemStacks = new ItemStack[inventoryCrafting.getSizeInventory()];
+    @Override
+    public ItemStack[] getRemainingItems(InventoryCrafting inventory) {
+        ItemStack[] itemStacks = new ItemStack[inventory.getSizeInventory()];
 
         for(int i = 0; i < itemStacks.length; ++i) {
-            ItemStack itemstack = inventoryCrafting.getStackInSlot(i);
+            ItemStack itemstack = inventory.getStackInSlot(i);
             itemStacks[i] = ForgeHooks.getContainerItem(itemstack);
         }
 
