@@ -15,7 +15,7 @@ public class ItemRucksack extends ItemMeta {
 
     public ItemRucksack() {
         this.setMaxStackSize(1);
-        this.setCreativeTab(CreativeTabs.tabTools);
+        this.setCreativeTab(CreativeTabs.TOOLS);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class ItemRucksack extends ItemMeta {
             return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
         }
 
-        return ActionResult.newResult(EnumActionResult.PASS, itemStack);
+        return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
     }
 
     @Override

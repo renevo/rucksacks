@@ -13,25 +13,25 @@ public final class RucksacksRegistry {
     public static void registerRecipes() {
         GameRegistry.addRecipe(new ItemStack(Items.rucksack_ender),
                 "#s#", "scs", "#s#",
-                '#', net.minecraft.init.Items.leather,
-                's', net.minecraft.init.Items.string,
-                'c', Blocks.ender_chest);
+                '#', net.minecraft.init.Items.LEATHER,
+                's', net.minecraft.init.Items.STRING,
+                'c', Blocks.ENDER_CHEST);
         GameRegistry.addRecipe(new ItemStack(Items.rucksack_ender),
                 "s#s", "#c#", "s#s",
-                '#', net.minecraft.init.Items.leather,
-                's', net.minecraft.init.Items.string,
-                'c', Blocks.ender_chest);
+                '#', net.minecraft.init.Items.LEATHER,
+                's', net.minecraft.init.Items.STRING,
+                'c', Blocks.ENDER_CHEST);
 
         GameRegistry.addRecipe(new ItemStack(Items.rucksack),
                 "#s#", "scs", "#s#",
-                '#', net.minecraft.init.Items.leather,
-                's', net.minecraft.init.Items.string,
-                'c', Blocks.chest);
+                '#', net.minecraft.init.Items.LEATHER,
+                's', net.minecraft.init.Items.STRING,
+                'c', Blocks.CHEST);
         GameRegistry.addRecipe(new ItemStack(Items.rucksack),
                 "s#s", "#c#", "s#s",
-                '#', net.minecraft.init.Items.leather,
-                's', net.minecraft.init.Items.string,
-                'c', Blocks.chest);
+                '#', net.minecraft.init.Items.LEATHER,
+                's', net.minecraft.init.Items.STRING,
+                'c', Blocks.CHEST);
 
         GameRegistry.addRecipe(new RecipeRucksackDyes());
     }

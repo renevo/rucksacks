@@ -11,7 +11,11 @@ public final class Items {
     public static Item rucksack;
 
     public static void init() {
-        GameRegistry.registerItem(rucksack_ender = new ItemEnderRucksack().setUnlocalizedName(Util.prefix("rucksack_ender")), "rucksack_ender");
-        GameRegistry.registerItem(rucksack = new ItemRucksack().setUnlocalizedName(Util.prefix("rucksack")), "rucksack");
+        register(rucksack_ender = new ItemEnderRucksack().setUnlocalizedName(Util.prefix("rucksack_ender")), "rucksack_ender");
+        register(rucksack = new ItemRucksack().setUnlocalizedName(Util.prefix("rucksack")), "rucksack");
+    }
+
+    private static void register(Item item, String name) {
+        GameRegistry.register(item.setRegistryName(name));
     }
 }

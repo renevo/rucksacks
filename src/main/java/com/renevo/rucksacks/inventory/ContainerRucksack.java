@@ -59,10 +59,12 @@ public class ContainerRucksack extends Container {
         }
     }
 
+    @Override
     public boolean canInteractWith(EntityPlayer player) {
         return this.rucksackInventory.isUseableByPlayer(player);
     }
 
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
         ItemStack lvt_3_1_ = null;
         Slot lvt_4_1_ = this.inventorySlots.get(slotIndex);
@@ -87,6 +89,7 @@ public class ContainerRucksack extends Container {
         return lvt_3_1_;
     }
 
+    @Override
     public void onContainerClosed(EntityPlayer entityPlayer) {
         super.onContainerClosed(entityPlayer);
         this.rucksackInventory.closeInventory(entityPlayer);

@@ -13,7 +13,7 @@ public class ItemEnderRucksack extends ItemMeta {
 
     public ItemEnderRucksack() {
         this.setMaxStackSize(1);
-        this.setCreativeTab(CreativeTabs.tabTools);
+        this.setCreativeTab(CreativeTabs.TOOLS);
     }
 
     @Override
@@ -23,6 +23,7 @@ public class ItemEnderRucksack extends ItemMeta {
             player.displayGUIChest(enderChest);
             return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
         }
-        return ActionResult.newResult(EnumActionResult.PASS, itemStack);
+
+        return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
     }
 }
