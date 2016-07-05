@@ -12,8 +12,8 @@ import org.apache.logging.log4j.Logger;
 
 @Mod(
         modid = Util.MODID,
-        dependencies = "required-after:Forge@[12.16.1,);",
-        acceptedMinecraftVersions = "1.9",
+        dependencies = "required-after:Forge@[12.18.0,);",
+        acceptedMinecraftVersions = "1.10",
         updateJSON = "https://raw.githubusercontent.com/RenEvo/rucksacks/master/update.json",
         useMetadata = true)
 public class Rucksacks {
