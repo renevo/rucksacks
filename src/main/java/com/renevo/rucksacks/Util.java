@@ -6,7 +6,8 @@ import net.minecraft.util.text.translation.I18n;
 import java.util.Locale;
 
 public final class Util {
-    private Util() {}
+    private Util() {
+    }
 
     public static final String MODID = "rucksacks";
 

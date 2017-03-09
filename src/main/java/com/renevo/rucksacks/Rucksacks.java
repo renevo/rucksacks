@@ -12,15 +12,15 @@ import org.apache.logging.log4j.Logger;
 
 @Mod(
         modid = Util.MODID,
-        dependencies = "required-after:Forge@[12.18.0,);",
-        acceptedMinecraftVersions = "1.10",
+        dependencies = "required-after:forge@[13.20.0,);",
+        acceptedMinecraftVersions = "1.11",
         updateJSON = "https://raw.githubusercontent.com/RenEvo/rucksacks/master/update.json",
         useMetadata = true)
 public class Rucksacks {
 
     public Logger log;
 
-    @SidedProxy(clientSide="com.renevo.rucksacks.client.ClientProxy", serverSide="com.renevo.rucksacks.common.CommonProxy")
+    @SidedProxy(clientSide = "com.renevo.rucksacks.client.ClientProxy", serverSide = "com.renevo.rucksacks.common.CommonProxy")
     public static CommonProxy proxy;
 
     @Mod.Instance(Util.MODID)
@@ -34,12 +34,11 @@ public class Rucksacks {
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
         proxy.init();
     }
 
-	@EventHandler
+    @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit();
     }

@@ -8,7 +8,8 @@ public final class Config {
 
     private static Configuration forgeConfiguration;
 
-    private Config() {}
+    private Config() {
+    }
 
     public static void loadConfiguration(File configurationFile) {
         forgeConfiguration = new Configuration(configurationFile);

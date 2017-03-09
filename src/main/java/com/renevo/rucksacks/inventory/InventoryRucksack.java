@@ -16,6 +16,8 @@ public class InventoryRucksack implements IInventory {
     private ItemStack rucksack;
     private EntityPlayer player;
     private ItemStack[] inventory;
+    // TODO: should probably make this a notnulllist thingy
+    // TODO: should probably switch to the basic inventory base class as well, that handles most of this shit
 
     public InventoryRucksack(EntityPlayer player, ItemStack rucksack) {
         this.rucksack = rucksack;
@@ -30,7 +32,7 @@ public class InventoryRucksack implements IInventory {
     }
 
     public void writeToNBT() {
-        if (this.player.worldObj.isRemote) {
+        if (this.player.world.isRemote) {
             return;
         }
         NBTTagCompound nbtTagCompound = this.rucksack.getTagCompound();
@@ -61,10 +63,10 @@ public class InventoryRucksack implements IInventory {
                 currentStack = player.inventory.getStackInSlot(i);
             }
 
-            if (currentStack != null) {
+            if (!currentStack.isEmpty()) {
                 NBTTagCompound stackNBT = currentStack.getTagCompound();
                 if (stackNBT != null && this.rucksack.getTagCompound().getInteger("cid") == stackNBT.getInteger("cid")) {
-                    this.rucksack.stackSize = 1;
+                    this.rucksack.setCount(1);
 
                     if (i == -1) {
                         player.inventory.setItemStack(this.rucksack);
@@ -79,7 +81,7 @@ public class InventoryRucksack implements IInventory {
     }
 
     public void readFromNBT() {
-        if (this.player.worldObj.isRemote) {
+        if (this.player.world.isRemote) {
             return;
         }
 
@@ -101,7 +103,7 @@ public class InventoryRucksack implements IInventory {
             NBTTagCompound itemStackTag = tagList.getCompoundTagAt(i);
             int itemSlot = itemStackTag.getByte("Slot");
             if (itemSlot >= 0 && itemSlot < inventory.length) {
-                this.inventory[itemSlot] = ItemStack.loadItemStackFromNBT(itemStackTag);
+                this.inventory[itemSlot] = new ItemStack(itemStackTag);
             }
         }
     }
@@ -112,46 +114,57 @@ public class InventoryRucksack implements IInventory {
     }
 
     @Override
+    public boolean isEmpty() {
+        // well, thats one way to do it...
+        return false;
+    }
+
+    @Override
     public ItemStack getStackInSlot(int slotIndex) {
-        return slotIndex < 0 || slotIndex >= this.getSizeInventory() ? null : this.inventory[slotIndex];
+        return slotIndex < 0 ||
+                slotIndex >= this.getSizeInventory()
+                ? ItemStack.EMPTY
+                : this.inventory[slotIndex] == null
+                ? ItemStack.EMPTY
+                : this.inventory[slotIndex];
     }
 
     @Override
     public ItemStack decrStackSize(int slotIndex, int amount) {
         if (slotIndex < 0 || slotIndex >= this.getSizeInventory()) {
-            return null;
+            return ItemStack.EMPTY;
         }
 
-        if (inventory[slotIndex] != null) {
+        if (inventory[slotIndex] != null && !inventory[slotIndex].isEmpty()) {
             ItemStack output;
-            if (inventory[slotIndex].stackSize <= amount) {
+            if (inventory[slotIndex].getCount() <= amount) {
                 output = inventory[slotIndex];
-                inventory[slotIndex] = null;
+                inventory[slotIndex] = ItemStack.EMPTY;
                 return output;
             }
 
             output = inventory[slotIndex].splitStack(amount);
-            if (inventory[slotIndex].stackSize <= 0) {
-                inventory[slotIndex] = null;
+            if (inventory[slotIndex].isEmpty()) {
+                inventory[slotIndex] = ItemStack.EMPTY;
             }
             return output;
         } else {
-            return null;
+            return ItemStack.EMPTY;
         }
     }
 
     @Override
     public ItemStack removeStackFromSlot(int slotIndex) {
         if (slotIndex < 0 || slotIndex >= this.getSizeInventory()) {
-            return null;
+            return ItemStack.EMPTY;
         }
 
         ItemStack stack = null;
-        if (inventory[slotIndex] != null) {
+        if (inventory[slotIndex] != null && !inventory[slotIndex].isEmpty()) {
             stack = inventory[slotIndex];
-            inventory[slotIndex] = null;
+            inventory[slotIndex] = ItemStack.EMPTY;
         }
-        return stack;
+        return stack == null ? ItemStack.EMPTY : stack;
     }
 
     @Override
@@ -161,11 +174,11 @@ public class InventoryRucksack implements IInventory {
         }
 
         this.inventory[slotIndex] = itemStack;
-        if (itemStack != null && itemStack.stackSize > this.getInventoryStackLimit()) {
-            itemStack.stackSize = this.getInventoryStackLimit();
+        if (itemStack != null && itemStack != ItemStack.EMPTY && itemStack.getCount() > this.getInventoryStackLimit()) {
+            itemStack.setCount(this.getInventoryStackLimit());
         }
-        if (itemStack != null && itemStack.stackSize == 0) {
-            this.inventory[slotIndex] = null;
+        if (itemStack != null && itemStack != ItemStack.EMPTY && itemStack.isEmpty()) {
+            this.inventory[slotIndex] = ItemStack.EMPTY;
         }
     }
 
@@ -180,7 +193,7 @@ public class InventoryRucksack implements IInventory {
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
+    public boolean isUsableByPlayer(EntityPlayer entityPlayer) {
         return true;
     }
 
@@ -217,7 +230,7 @@ public class InventoryRucksack implements IInventory {
     @Override
     public void clear() {
         for (int i = 0; i < this.inventory.length; i++) {
-            this.inventory[i] = null;
+            this.inventory[i] = ItemStack.EMPTY;
         }
     }
 

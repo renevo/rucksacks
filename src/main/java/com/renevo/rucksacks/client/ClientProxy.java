@@ -23,7 +23,7 @@ public class ClientProxy extends CommonProxy {
         Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
             @Override
             public int getColorFromItemstack(ItemStack itemStack, int i) {
-                return i > 0 ? 16777215 :((ItemRucksack)itemStack.getItem()).getColor(itemStack);
+                return i > 0 ? 16777215 : ((ItemRucksack) itemStack.getItem()).getColor(itemStack);
             }
         }, Items.rucksack);
     }

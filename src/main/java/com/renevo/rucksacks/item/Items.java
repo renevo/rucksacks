@@ -5,7 +5,8 @@ import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public final class Items {
-    private Items() {}
+    private Items() {
+    }
 
     public static Item rucksack_ender;
     public static Item rucksack;

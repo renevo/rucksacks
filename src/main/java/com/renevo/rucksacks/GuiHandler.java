@@ -32,14 +32,14 @@ public class GuiHandler implements IGuiHandler {
 
     private ItemStack getRucksack(EntityPlayer player) {
         // try to test for mainhand first, if in offhand, it doesn't matter
-        if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == Items.rucksack) {
+        if (player.getHeldItemMainhand().getItem() == Items.rucksack) {
             return player.getHeldItemMainhand();
         }
 
-        if (player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() == Items.rucksack) {
+        if (player.getHeldItemOffhand().getItem() == Items.rucksack) {
             return player.getHeldItemOffhand();
         }
 
-        return null;
+        return ItemStack.EMPTY;
     }
 }

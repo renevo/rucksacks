@@ -19,13 +19,12 @@ public class ItemRucksack extends ItemMeta {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
-        if (!world.isRemote) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack item = player.getHeldItem(hand);
+        if (!world.isRemote && item.getItem() == this) {
             player.openGui(Rucksacks.instance, GuiHandler.GUI_RUCKSACK, world, 0, 0, 0);
-            return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
         }
-
-        return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
+        return ActionResult.newResult(EnumActionResult.SUCCESS, item);
     }
 
     @Override
@@ -48,7 +47,7 @@ public class ItemRucksack extends ItemMeta {
         NBTTagCompound nbt = itemStack.getTagCompound();
         if (nbt != null) {
             NBTTagCompound nbtDisplay = nbt.getCompoundTag("display");
-            if (nbtDisplay != null && nbtDisplay.hasKey("color", 3)) {
+            if (nbtDisplay.hasKey("color", 3)) {
                 return nbtDisplay.getInteger("color");
             }
         }
@@ -56,6 +55,7 @@ public class ItemRucksack extends ItemMeta {
         return 10511680;
     }
 
+    // TODO: Should implement this at some point....
     public void removeColor(ItemStack itemStack) {
         NBTTagCompound nbt = itemStack.getTagCompound();
         if (nbt != null) {
